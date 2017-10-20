@@ -7,6 +7,11 @@ import ckan.lib.dictization.model_dictize as md
 
 from ckan.lib.dictization import table_dictize
 
+try:
+    from ckan.common import config
+except ImportError:
+    from pylons import config
+
 class FeaturedviewsPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IActions, inherit=True)
@@ -36,7 +41,8 @@ class FeaturedviewsPlugin(plugins.SingletonPlugin):
         helpers = {
             'get_featured_view': _get_featured_view,
             'get_canonical_resource_view': _get_canonical_view,
-            'get_homepage_resource_views': _get_homepage_views
+            'get_homepage_resource_views': _get_homepage_views,
+            'display_homepage_views': _display_homepage_views
         }
         return helpers
 
@@ -102,3 +108,6 @@ def _get_homepage_views():
         })
 
     return homepage_views
+
+def _display_homepage_views():
+    return toolkit.asbool(config.get('ckanext.homepage_views', 'False'))

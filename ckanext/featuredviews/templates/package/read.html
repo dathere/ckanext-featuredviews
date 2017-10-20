@@ -1,6 +1,7 @@
 {% ckan_extends %}
 
 {% block package_notes %}
+    {{ super() }}
 
     {% set view = h.get_canonical_resource_view(pkg.id) %}
     {% if view %}
@@ -10,6 +11,4 @@
             package = pkg
         %}
     {% endif %}
-
-    {{ super() }}
 {% endblock %}

@@ -7,6 +7,8 @@ import ckan.lib.dictization.model_dictize as md
 
 from ckan.lib.dictization import table_dictize
 
+from ckanext.featuredviews.cli import get_commands
+
 try:
     from ckan.common import config
 except ImportError:
@@ -17,6 +19,13 @@ class FeaturedviewsPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IActions, inherit=True)
     plugins.implements(plugins.ITemplateHelpers, inherit=True)
     plugins.implements(plugins.IConfigurable, inherit=True)
+    plugins.implements(plugins.IClick)
+
+    #IClick for CKAN 2.9+
+    def get_commands(self):
+        """Call me via: `ckan featuredmigrate`"""
+        return get_commands()
+            
 
     # IConfigurable
     def configure(self, config):

@@ -1,24 +1,14 @@
-{% extends "package/read.html" %}
-
-{%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
+{% ckan_extends %}
 
 {% block package_notes %}
-  {%- if not dataset_type -%}
-    <p>
-    dataset_type not passed to template. your version of CKAN
-    might not be compatible with ckanext-scheming
-    </p>
-  {%- endif -%}
-  {% if (h.scheming_field_by_name(schema.dataset_fields, 'notes') or
-    h.scheming_field_by_name(schema.dataset_fields, 'notes_translated')) and
-    pkg.notes%}
-    <div class="notes embedded-content">
-      {{ h.render_markdown(h.get_translated(pkg, 'notes')) }}
-    </div>
-  {% endif %}
-{% endblock %}
+    {{ super() }}
 
-{% block package_additional_info %}
-  {% snippet "scheming/package/snippets/additional_info.html",
-    pkg_dict=pkg, dataset_type=dataset_type, schema=schema %}
+    {% set view = h.get_canonical_resource_view(pkg.id) %}
+    {% if view %}
+        {% snippet 'package/snippets/resource_view.html',
+            resource_view = view['resource_view'],
+            resource = view['resource'],
+            package = pkg
+        %}
+    {% endif %}
 {% endblock %}

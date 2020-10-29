@@ -13,8 +13,8 @@ log = logging.getLogger(__name__)
 schema = {
     'resource_view_id': [get_validator('not_empty'), unicode],
     'package_id': [get_validator('ignore_empty'), unicode],
-    'canonical': [get_validator('boolean_validator'), unicode],
-    'homepage': [get_validator('boolean_validator'), unicode]
+    'canonical': [get_validator('boolean_validator')],
+    'homepage': [get_validator('boolean_validator')]
 }
 
 schema_get = {
